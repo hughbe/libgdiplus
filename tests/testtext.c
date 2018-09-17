@@ -23,7 +23,7 @@ using namespace DllExports;
 #include <stdlib.h>
 #include "testhelpers.h"
 #if !defined(USE_WINDOWS_GDIPLUS)
-#include "../config.h"
+#include "config.h"
 #endif
 
 #define ok(expected, ...) if (!(expected)) { printf(__VA_ARGS__); assert(expected); }

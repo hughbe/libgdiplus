@@ -20,7 +20,7 @@ using namespace DllExports;
 
 #include "testhelpers.h"
 #if !defined(USE_WINDOWS_GDIPLUS)
-#include "../config.h"
+#include "config.h"
 #endif
 
 static void verifyPathImpl (GpPath *path, FillMode expectedFillMode, float expectedX, float expectedY, float expectedWidth, float expectedHeight, const PointF *expectedPoints, const BYTE *expectedTypes, INT expectedCount, const char *message, const char *file, const char *function, int line)

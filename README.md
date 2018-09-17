@@ -12,7 +12,7 @@ This requires the libraries used by the Cairo vector graphics library to build (
 
 On **OSX** you can use [Homebrew](https://brew.sh/) to install the dependencies:
 
-	brew install glib cairo libexif libjpeg giflib libtiff autoconf libtool automake pango pkg-config
+	brew install cmake ninja glib cairo libexif libjpeg giflib libtiff autoconf libtool automake pango pkg-config
 	brew link gettext --force
 
 On **Debian-based Linux distributions** you can use `apt-get` to install the dependencies:
@@ -28,40 +28,42 @@ On **Windows** you can use [Vcpkg](https://github.com/Microsoft/vcpkg) to instal
 
 ### Build instructions
 
-To build on **OSX** without X11:
+Invoke CMake's generator for the build system of your choice. To perform an out-of-source-tree build, navigate to the root of the repository.
 
-	./autogen.sh --without-x11 --prefix=YOUR_PREFIX
+	mkdir build
+	cd build
+
+To use **Unix Makefiles**:
+	cmake -G Xcode ../
 	make
 
-To build on **OSX with X11** (e.g. from XQuartz):
+To use **Ninja**:
+	cmake -G Ninja ../
+	ninja
 
-	PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig ./autogen.sh --prefix=YOUR_PREFIX
-	make
+To use **Xcode**:
+	cmake -G Xcode ../
 
-To build on **Linux**:
-
-	./autogen.sh --prefix=YOUR_PREFIX
-	make
-
-To build on **Windows**, open `libgdiplus.sln`.
+To use **Visual Studio**:
+	cmake -G Visual Studio 15 2017 ../
 
 ### Running the unit tests
 
 Run the following command from the root of the repository:
 
-	make check
+	ninja check
 
 To run the tests with Clang sanitizers, run the following command from the root of the repository:
 
-	./autogen.sh --enable-asan
-	make check
+	cmake -G Ninja ../ -DLIBGDIPLUS_ASAN_BUILD=TRUE
+	ninja check
 
 To run the unit tests with leak sanitizers, run the following command from the root of the repository:
 
-	./autogen.sh --enable-asan
+	cmake -G Ninja ../ -DLIBGDIPLUS_ASAN_BUILD=TRUE
 	export ASAN_OPTIONS=detect_leaks=1:fast_unwind_on_malloc=0
 	export LSAN_OPTIONS=suppressions=lsansuppressions.txt
-	make check
+	ninja check
 
 ### Code coverage
 

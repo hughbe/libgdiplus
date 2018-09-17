@@ -1,0 +1,68 @@
+/* Define if building universal (internal helper macro) */
+/* #undef AC_APPLE_UNIVERSAL_BUILD */
+
+/* Define to 1 if you have the `FcFini' function. */
+#cmakedefine01 HAVE_FCFINI
+
+/* Define if libexif is available. */
+#cmakedefine HAVE_LIBEXIF
+
+/* Define if gif support is available */
+#cmakedefine HAVE_LIBGIF
+
+/* Define if jpeg support is available */
+#cmakedefine HAVE_LIBJPEG
+
+/* Define if png support is available. Always defined. */
+#cmakedefine HAVE_LIBPNG
+
+/* Define if tiff support is available */
+#cmakedefine HAVE_LIBTIFF
+
+/* Define if x11 support is available */
+#cmakedefine HAVE_X11
+
+/* sigsetjmp is available */
+#cmakedefine HAVE_SIGSETJMP
+
+/* Support for the visibility ("hidden") attribute */
+/* #undef HAVE_VISIBILITY_HIDDEN */
+
+/* Name of package */
+#define PACKAGE "libgdiplus"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "https://bugzilla.xamarin.com/enter_bug.cgi?product=Class%20Libraries&component=libgdiplus"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "libgdiplus"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "libgdiplus @VERSION@"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "libgdiplus"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
+
+/* Define to the version of this package. */
+#cmakedefine PACKAGE_VERSION "@VERSION@"
+
+/* Use Pango to measure and draw text (INCOMPLETE and UNSUPPORTED) */
+/* #undef USE_PANGO_RENDERING */
+
+/* Version number of package */
+#cmakedefine VERSION "@VERSION@"
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#cmakedefine WORDS_BIGENDIAN
+# endif
+#endif
