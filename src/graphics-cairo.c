@@ -706,7 +706,7 @@ GpStatus
 cairo_FillRegion (GpGraphics *graphics, GpBrush *brush, GpRegion *region)
 {
 	/* if this is a region with a complex path */
-	if (region->type == RegionTypePath) {
+	if (region->cachedData.type == RegionTypePath) {
 		GpStatus status;
 		cairo_surface_t *mask_surface;
 
@@ -842,7 +842,7 @@ cairo_SetGraphicsClip (GpGraphics *graphics)
 		GdipTransformRegion (work, graphics->clip_matrix);
 	}
 
-	switch (work->type) {
+	switch (work->cachedData.type) {
 	case RegionTypeRect:
 		for (i = 0, rect = work->rects; i < work->cnt; i++, rect++) {
 			gdip_cairo_rectangle (graphics, rect->X, rect->Y, rect->Width, rect->Height, FALSE);
@@ -870,7 +870,7 @@ cairo_SetGraphicsClip (GpGraphics *graphics)
 		}
 		break;
 	default:
-		g_warning ("Unknown region type %d", work->type);
+		g_warning ("Unknown region type %d", work->cachedData.type);
 		break;
 	}
 	

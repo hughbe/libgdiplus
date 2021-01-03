@@ -46,16 +46,8 @@
 
 typedef enum {
     RegionTypeRect,
-    RegionTypePath,
-    RegionTypeInfinite
+    RegionTypePath
 } RegionType;
-
-typedef enum {
-    RegionDataRect          = 0x10000000,
-    RegionDataPath          = 0x10000001,
-    RegionDataEmptyRect     = 0x10000002,
-    RegionDataInfiniteRect  = 0x10000003
-} RegionDataType;
 
 typedef struct {
     DWORD size;
@@ -64,19 +56,57 @@ typedef struct {
     DWORD combiningOps;
 } RegionHeader;
 
-struct _Region {
+typedef struct {
     guint32		type;
-    int		cnt;
-    GpRectF*	rects;
+    int cnt;
+    GpRectF* rects;
     GpPathTree*	tree;
     GpRegionBitmap*	bitmap;
+} RegionCachedData;
+
+typedef enum {
+    RegionDataNodeTypeAnd = CombineModeIntersect,
+    RegionDataNodeTypeOr = CombineModeUnion,
+    RegionDataNodeTypeXor = CombineModeXor,
+    RegionDataNodeTypeExclude = CombineModeExclude,
+    RegionDataNodeTypeComplement = CombineModeComplement,
+    RegionDataNodeTypeRect = 0x10000000,
+    RegionDataNodeTypePath = 0x10000001,
+    RegionDataNodeTypeEmpty = 0x10000002,
+    RegionDataNodeTypeInfinite = 0x10000003,
+    RegionDataNodeTypeNotValid = 0xFFFFFFFF,
+} RegionDataNodeType;
+
+typedef struct {
+    RegionDataNodeType type;
+
+    union {
+        GpRectF rect;
+        GpPath *path;
+        struct {
+            int leftIndex;
+            int rightIndex;
+        };
+    };
+} RegionData;
+
+typedef struct {
+    RegionData *buffer;
+    int capacity;
+    int count;
+} RegionCombineData;
+
+struct _Region {
+    RegionData mainNode;
+    RegionCombineData combineData;
+    RegionCachedData cachedData;
 };
 
 BOOL gdip_is_InfiniteRegion (const GpRegion *region) GDIP_INTERNAL;
 BOOL gdip_is_Point_in_RectF_inclusive (float x, float y, GpRectF* rect) GDIP_INTERNAL;
 
 void gdip_clear_region (GpRegion *region) GDIP_INTERNAL;
-GpStatus gdip_copy_region (GpRegion *source, GpRegion *dest) GDIP_INTERNAL;
+GpStatus gdip_copy_region (const GpRegion *source, GpRegion *dest) GDIP_INTERNAL;
 
 #include "region.h"
 
