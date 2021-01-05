@@ -65,6 +65,12 @@ To run the unit tests with leak sanitizers, run the following command from the r
 	export LSAN_OPTIONS=suppressions=lsansuppressions.txt
 	ninja check
 
+### Fuzzing
+
+Run
+
+    cmake -G Ninja ../ -DLIBGDIPLUS_ASAN_BUILD=TRUE -DLIBGDIPLUS_FUZZER_BUILD=TRUE
+
 ### Code coverage
 
 Code coverage stats are generated with `lcov`. You can use [Homebrew](https://brew.sh/) on **OSX** to install the dependencies:

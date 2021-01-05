@@ -32,6 +32,19 @@
 
 #define ARRAY_SIZE(x) sizeof (x) / sizeof (*x)
 
+static int save_counter = 1;
+ATTRIBUTE_USED static void save(const char* prefix, BYTE* buffer, int bufferLength)
+{
+    char file[256];
+    sprintf(file, "/Users/hugh/Documents/GitHub/libgdiplus-fuzzer-corpus/%s/%s_%d", prefix, prefix, save_counter++);
+    printf("%s\n", file);
+
+	FILE *f = fopen (file, "wb+");
+	assert (f);
+	fwrite ((void *) buffer, sizeof (BYTE), bufferLength, f);
+	fclose (f);
+}
+
 ATTRIBUTE_USED static BOOL floatsEqual(float v1, float v2)
 {
     if (isnan (v1))
@@ -434,6 +447,8 @@ ATTRIBUTE_USED static void verifyRegionDataImpl (GpRegion *region, BYTE *expecte
 	assertEqualIntImpl (status, Ok, NULL, file, function, line);
 	assertEqualBytesImpl (buffer, expected, expectedCount, "Region Data", file, function, line);
 	assertEqualIntImpl (sizeFilled, expectedCount, "Region Data Size Filled", file, function, line);
+
+    save("region", buffer, sizeFilled);
 }
 
 #define verifyRegionData(region, expectedData) \

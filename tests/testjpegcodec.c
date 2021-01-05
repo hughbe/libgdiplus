@@ -31,6 +31,7 @@ GpImage *image;
 
 #define createFile(buffer, expectedStatus) \
 { \
+	save("jpegcodec", buffer, sizeof (buffer)); \
   GpStatus status; \
   FILE *f = fopen (file, "wb+"); \
   assert (f); \

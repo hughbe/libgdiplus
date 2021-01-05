@@ -28,6 +28,7 @@ INT bmpFlags = ImageFlagsColorSpaceRGB | ImageFlagsHasRealPixelSize | ImageFlags
 
 #define createFile(buffer, expectedStatus) \
 { \
+	save("bmpcodec", buffer, sizeof (buffer)); \
 	GpStatus status; \
 	FILE *f = fopen (file, "wb+"); \
 	assert (f); \

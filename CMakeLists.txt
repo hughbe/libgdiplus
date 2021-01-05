@@ -116,10 +116,14 @@ option(LIBGDIPLUS_ASAN_BUILD "Use Address Sanitizer" FALSE)
 option(LIBGDIPLUS_FUZZER_BUILD "Use LibFuzzer" FALSE)
 
 if (LIBGDIPLUS_ASAN_BUILD OR LIBGDIPLUS_FUZZER_BUILD)
-  set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
-  set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
+  set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O1 -fno-omit-frame-pointer -fsanitize=address")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O1 -fno-omit-frame-pointer -fsanitize=address")
+  set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g -O1 -fno-omit-frame-pointer -fsanitize=address")
 endif()
 
 add_subdirectory(src)
 add_subdirectory(tests)
+
+if (LIBGDIPLUS_FUZZER_BUILD)
+  add_subdirectory(fuzzers)
+endif()
